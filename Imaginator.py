@@ -5,10 +5,17 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
 
+from static import constants
 
+
+#Вывод пошаговых картинок
+def saveCurStepAsImage():
+
+    pass
+#Вывод анимации путем склеивания пошаговых картинок
 def animate_algo():
     # Путь к папке с изображениями
-    images_folder = 'static/img/DSR_gallery/'
+    images_folder = constants.images_path
 
     # Получаем список файлов с расширением .png или .jpg
     image_files = [os.path.join(images_folder, f) for f in os.listdir(images_folder) if
@@ -24,12 +31,14 @@ def animate_algo():
     imageio.mimsave(animation_file, images, duration=1)  # duration - задает время показа каждого кадра в секундах
 
 
+#Анимируем путь и выводим в виде гифки
 def animate_path(G, path):
     fixed_nodes = list(G.nodes)
 
     random_pos0 = nx.kamada_kawai_layout(G)
     pos = nx.spring_layout(G, pos=random_pos0.copy(), fixed=fixed_nodes.copy())
     fig, ax = plt.subplots()
+    fig.set_size_inches(10, 7)
 
     # добавляем подписи к вершинам
     labels = {i: i for i in range(0, len(G))}
