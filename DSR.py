@@ -104,7 +104,7 @@ def create_graph_visualization_DSR(H):
     try:
         os.remove(constants.images_path + '0.png')
     except:
-        print('oops')
+        pass
     plt.savefig(constants.images_path + '0.png')
 
 

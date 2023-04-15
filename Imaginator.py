@@ -8,11 +8,12 @@ from matplotlib.animation import FuncAnimation, PillowWriter
 from static import constants
 
 
-#Вывод пошаговых картинок
+# Вывод пошаговых картинок
 def saveCurStepAsImage():
-
     pass
-#Вывод анимации путем склеивания пошаговых картинок
+
+
+# Вывод анимации путем склеивания пошаговых картинок
 def animate_algo():
     # Путь к папке с изображениями
     images_folder = constants.images_path
@@ -31,7 +32,7 @@ def animate_algo():
     imageio.mimsave(animation_file, images, duration=1)  # duration - задает время показа каждого кадра в секундах
 
 
-#Анимируем путь и выводим в виде гифки
+# Анимируем путь и выводим в виде гифки
 def animate_path(G, path):
     fixed_nodes = list(G.nodes)
 
@@ -42,7 +43,6 @@ def animate_path(G, path):
 
     # добавляем подписи к вершинам
     labels = {i: i for i in range(0, len(G))}
-    #nx.draw_networkx_labels(G, pos, labels=labels)
 
     def update(ii):
         ax.clear()
@@ -54,7 +54,7 @@ def animate_path(G, path):
         # добавляем подписи к вершинам
         nx.draw_networkx_labels(G, pos, labels=labels, font_size=10, font_color='white', font_weight='bold', ax=ax)
 
-        ax.set_title(f"Шаг {ii+1} / {len(path)}")
+        ax.set_title(f"Шаг {ii + 1} / {len(path)}")
 
     animation = FuncAnimation(fig, update, frames=len(path), repeat=True)
     writer = PillowWriter(fps=2)
