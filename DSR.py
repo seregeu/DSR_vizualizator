@@ -25,15 +25,6 @@ def generate_graph(n, p):
             G.add_edge(*pair)
     return G
 
-
-def RREQ_str(RREQ):
-    return str(RREQ[0]) + ", " + str(RREQ[1]) + ", " + str(RREQ[2]) + ", " + str(RREQ[3])
-
-
-def is_nodes_connected(u, v, Graph):
-    return u in Graph.neighbors(v)
-
-
 def req(H, src, init_src, dict_nodes, pos, my_nodelist, dst, broadcasted, counter):
     counter += 1
     node_labels = {}
@@ -42,11 +33,11 @@ def req(H, src, init_src, dict_nodes, pos, my_nodelist, dst, broadcasted, counte
     if (init_src != -1):
         list_adj.remove(init_src)
     if not list_adj:
-        print("finita la commedia!\n")
+        print("Stop!\n")
     else:
         for i in list_adj:
-            if (not (dict_nodes[i])[1]):  # Не пусто
-                if (i != int((dict_nodes[i])[2])):  # Не отправитель
+            if (not (dict_nodes[i])[1]):
+                if (i != int((dict_nodes[i])[2])):
                     (dict_nodes[i])[1] = (dict_nodes[src])[1] + str(i) + ';'
             # Поиск наименьшего
             else:
@@ -55,9 +46,7 @@ def req(H, src, init_src, dict_nodes, pos, my_nodelist, dst, broadcasted, counte
                 init_path_semi = re.sub('[^;]', '', (dict_nodes[i])[1])
                 if (len(alt_path_semi) < len(init_path_semi)):
                     (dict_nodes[i])[1] = alt_path
-            # Установка цвета вершин
-            node_colors = ['#fef89a'] * node_number
-            node_colors[i] = '#6495ED'
+            node_colors = ['#e0dfcc'] * node_number
             # Рисование графа
             figure = plt.gcf()
             figure.set_size_inches(IMAGE_W, IMAGE_H)
@@ -67,7 +56,7 @@ def req(H, src, init_src, dict_nodes, pos, my_nodelist, dst, broadcasted, counte
                 if (not (dict_nodes[j])[1]):
                     node_labels[j] = str(j)
                 else:
-                    node_colors[j] = '#6495ED'
+                    node_colors[j] = '#64eda4'
                     node_labels[j] = str(dict_nodes[j]) + "\n" + str(j)
             nx.draw(H, pos, node_color=node_colors, edge_color='#9d9d95', node_size=420, with_labels=False)
             my_nodelist.append(src)
@@ -100,7 +89,7 @@ def create_graph_visualization_DSR(H):
 
     figure = plt.gcf()
     figure.set_size_inches(IMAGE_W, IMAGE_H)
-    nx.draw(H, pos, node_color='#fef89a', edge_color='#9d9d95', node_size=420, with_labels=True)
+    nx.draw(H, pos, node_color='#e0dfcc', edge_color='#9d9d95', node_size=420, with_labels=True)
     try:
         os.remove(constants.images_path + '0.png')
     except:
@@ -118,7 +107,7 @@ def get_route(H, src, dst):
     pos = nx.spring_layout(H, pos=random_pos0.copy(), fixed=fixed_nodes.copy())
     figure = plt.gcf()
     figure.set_size_inches(IMAGE_W, IMAGE_H)
-    nx.draw(H, pos, node_color='#fef89a', edge_color='#9d9d95', node_size=420, with_labels=True)
+    nx.draw(H, pos, node_color='#e0dfcc', edge_color='#9d9d95', node_size=420, with_labels=True)
     # plt.pause(1.6)
 
     # заполняем RREQ
@@ -141,7 +130,6 @@ def get_route(H, src, dst):
     route_node_list = list(map(int, route_node_list))
     route_node_list.insert(0, src)
 
-    # вытаскиваем ребра графа
     my_edge_list = []
     for i in range(len(route_node_list) - 1):
         e = route_node_list[i], route_node_list[i + 1]
@@ -149,8 +137,8 @@ def get_route(H, src, dst):
 
     # Вывод конечного маршрута
     plt.clf()
-    nx.draw(H, pos, node_color='#fff3a8', edge_color='#9d9d95', node_size=420, with_labels=True)
-    nx.draw(H, pos, nodelist=route_node_list, node_color='#8dc2ff', edge_color='#9d9d95', node_size=420,
+    nx.draw(H, pos, node_color='#e0dfcc', edge_color='#9d9d95', node_size=420, with_labels=True)
+    nx.draw(H, pos, nodelist=route_node_list, node_color='#64eda4', edge_color='#9d9d95', node_size=420,
             with_labels=True)
     plt.savefig(constants.images_path + '1000.png')
     return route_node_list

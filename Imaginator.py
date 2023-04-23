@@ -3,6 +3,7 @@ import os
 import imageio
 import networkx as nx
 import matplotlib.pyplot as plt
+from PIL import Image, ImageDraw, ImageFont
 from matplotlib.animation import FuncAnimation, PillowWriter
 
 from static import constants
@@ -22,14 +23,25 @@ def animate_algo():
     image_files = [os.path.join(images_folder, f) for f in os.listdir(images_folder) if
                    f.endswith('.png') or f.endswith('.jpg')]
 
-    # Создаем список с изображениями
+    # Создаем список с изображениями и добавляем подписи и рамки
     images = []
-    for filename in image_files:
-        images.append(imageio.imread(filename))
+    font = ImageFont.truetype("arial.ttf", 20)  # шрифт и размер подписи
+    for i, filename in enumerate(image_files):
+        im = Image.open(filename)
+        draw = ImageDraw.Draw(im)
+        # координаты текста
+        text_width, text_height = draw.textsize(f"Шаг {i+1}", font=font)
+        x = (im.width - text_width) // 2
+        y = 10
+        draw.text((x, y), f"Шаг {i+1}", font=font, fill=(0, 0, 0))  # добавляем подпись на изображение
+        # добавляем рамку
+        draw.rectangle([0, 0, im.width - 1, im.height - 1], outline=(0, 0, 0))
+        images.append(im)
 
     # Создаем анимацию
     animation_file = 'animation.gif'
     imageio.mimsave(animation_file, images, duration=1)  # duration - задает время показа каждого кадра в секундах
+
 
 
 # Анимируем путь и выводим в виде гифки

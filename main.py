@@ -27,7 +27,8 @@ if __name__ == '__main__':
 
     route = get_route(current_graph, a, b)
     current_graph
-    print(current_graph)
-    print(route)
-    Imaginator.animate_path(current_graph, route)
+    print("Топология: ", current_graph)
+    print("Построенный маршрут: ", route)
+    #Рисуем маршрут
+    #Imaginator.animate_path(current_graph, route)
     Imaginator.animate_algo()
